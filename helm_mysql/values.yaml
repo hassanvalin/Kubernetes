@@ -1,0 +1,23 @@
+--- 
+namespace: helm-mysql
+pv: 
+  labels: 
+     app: persistent
+     release: v1
+  path: /opt/mysql-data
+  storage: 1Gi
+
+mysql:
+  appName: mysql-deployment
+  sqlport: 3306
+  type: http
+  labels:
+     app: mysql
+     containername: mysqlapp
+     containerimg: mysql:5.7
+     envname: MYSQL_ROOT_PASSWORD
+     envval: secretpwd
+  volume:
+     name: mysql-volume
+     mountpath: /var/lib/mysql
+     volclaimname: my-first-app-pvc

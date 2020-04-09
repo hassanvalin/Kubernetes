@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+        name: {{ .Values.mysql.appName }}-pvc
+        namespace: {{ .Values.namespace }}
+        labels:
+{{- toYaml .Values.pv.labels | nindent 12}}
+spec:
+        accessModes:
+                - ReadWriteMany
+        resources:
+                requests:
+                     storage: {{ .Values.pv.storage}}
+        selector:
+                matchLabels:
+{{- toYaml .Values.pv.labels | nindent 20}}
