@@ -1,30 +1,30 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-    name: helm-jenkins
-    namespace: jenkins
+    name: {{ .Values.jenkins.appName }}
+    namespace: {{ .Values.namespace }}
 spec:
-    replicas: 1
+    replicas: {{ .Values.jenkins.replicas }}
     selector:
        matchLabels:
-          app: jenkins		
+          app: {{ .Values.jenkins.app }}		
     template:
        metadata:
            labels:
-               app: jenkins
+               app: {{ .Values.jenkins.app }}
        spec:
            containers:
-              - name: jenkins
-                image: jenkins/jenkins
+              - name: {{ .Values.jenkins.app }}
+                image: {{ .Values.jenkins.image }}
                 ports:
-                - containerPort: 8080
+                - containerPort: {{ .Values.jenkins.containerPort }}
                 volumeMounts:
-                     - name: jenkins-home
-                       mountPath: /var/jenkins_home
+                     - name: {{ .Values.pv.name }}
+                       mountPath: {{ .Values.pv.mountPath }}
            volumes:
-               - name: jenkins-home
+               - name: {{ .Values.pv.name }}
                  hostPath:
-                      path: /opt/jenkins_home
+                      path: {{ .Values.pv.path }}
                       type: DirectoryOrCreate
        
        
