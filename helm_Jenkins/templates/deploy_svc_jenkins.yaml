@@ -26,6 +26,22 @@ spec:
                  hostPath:
                       path: {{ .Values.pv.path }}
                       type: DirectoryOrCreate
+
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+   name: {{ .Values.service.name }}
+spec:
+   selector:
+          app: {{ .Values.jenkins.app }}
+   type: {{ .Values.service.type }}
+   ports:
+   - port: {{ .Values.service.port }}
+     nodePort: {{ .Values.service.nodePort }}
+     targetPort: {{ .Values.service.targetPort }}
        
        
 
