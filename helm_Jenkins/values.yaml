@@ -1,0 +1,23 @@
+---
+namespace: jenkins
+pv: 
+  labels: 
+     app: persistent
+     release: v1
+  name: jenkins-home
+  path: /opt/jenkins_home
+  mountPath: /var/jenkins_home
+  storage: 1Gi
+jenkins:
+  appName: helm-jenkins
+  replicas: 1
+  app: jenkins
+  image: jenkins/jenkins
+  containerPort: 8080
+service:
+  name: jenkins-svc
+  type: NodePort
+  port: 8080
+  nodePort: 30080
+  targetPort: 8080
+  
