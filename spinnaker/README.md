@@ -65,19 +65,19 @@ We need to make some changes to the config file to support our deployments ...
 
 - Enable Kubernetes incase of any K8S Deployment ( You can see different cloud providers in /opt/spinnaker/hal/config file, in our case we are going to use Kubernetes ) by running below command
 
-# hal config provider kubernetes enable
+ hal config provider kubernetes enable
 
-# CONTEXT=$(kubectl config current-context)      //Getting the current-context value
+ CONTEXT=$(kubectl config current-context)      //Getting the current-context value
 
 // We need to add an account under K8S provider section with some name and context we are getting above and also make sure you get the right kube config file pointed in this section as well
 
-# hal config provider kubernetes account add minikube_k8s \
+ hal config provider kubernetes account add minikube_k8s \
     --provider-version v2 \
     --context $CONTEXT
 
 // Set the artfacts to true under features section with below command
 
-# hal config features edit --artifacts true
+ hal config features edit --artifacts true
 
 
 ---
