@@ -7,6 +7,7 @@
 - minio.yaml : Create a container in cluster ( kubectl apply -f minio.yaml )   // We are using Minio as Storage service
 
 
+
 2. Install spinnaker using Minikube and Minio. Run below command that creates a docker container and make sure to have config files and certs available in folders in server VM before mounting onto container
 
 docker run\
@@ -28,6 +29,7 @@ docker run\
 
 - You may not edit files on running docker container in that case you can edit files on the server VM because we have created mount points from server VM to docker container
  
+
 
 3. Create a spinnaker service account in kubernetes cluster
 
@@ -54,6 +56,7 @@ TOKEN=$(kubectl get secret --context $CONTEXT \
 kubectl config set-credentials ${CONTEXT}-token-user --token $TOKEN
 
 kubectl config set-context $CONTEXT --user ${CONTEXT}-token-user
+
 
 
 4. hal config file 'config' has to be present inside .hal folder on docker container with our process in previous steps if this file is not created just run the command 'hal config' to get the file created. If you run this on your server VM hal folder as well it gets reflected on the docker container because of mount path
