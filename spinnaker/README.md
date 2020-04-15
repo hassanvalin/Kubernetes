@@ -4,9 +4,7 @@
 
 - Minikube
 
-- minio.yaml : Create a container in cluster ( kubectl apply -f minio.yaml )
-
-// We are using Minio as Storage service
+- minio.yaml : Create a container in cluster ( kubectl apply -f minio.yaml )   // We are using Minio as Storage service
 
 
 2. Install spinnaker using Minikube and Minio. Run below command that creates a docker container and make sure to have config files and certs available in folders in server VM before mounting onto container
