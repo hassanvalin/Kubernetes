@@ -7,7 +7,7 @@
 - minio.yaml : Create a container in cluster ( kubectl apply -f minio.yaml )   // We are using Minio as Storage service
 
 
-
+---
 2. Install spinnaker using Minikube and Minio. Run below command that creates a docker container and make sure to have config files and certs available in folders in server VM before mounting onto container
 
 docker run\
@@ -30,7 +30,7 @@ docker run\
 - You may not edit files on running docker container in that case you can edit files on the server VM because we have created mount points from server VM to docker container
  
 
-
+---
 3. Create a spinnaker service account in kubernetes cluster
 
 CONTEXT=$(kubectl config current-context)           // It gives the current context from the config file
@@ -58,7 +58,7 @@ kubectl config set-credentials ${CONTEXT}-token-user --token $TOKEN
 kubectl config set-context $CONTEXT --user ${CONTEXT}-token-user
 
 
-
+---
 4. hal config file 'config' has to be present inside .hal folder on docker container with our process in previous steps if this file is not created just run the command 'hal config' to get the file created. If you run this on your server VM hal folder as well it gets reflected on the docker container because of mount path
 
 We need to make some changes to the config file to support our deployments ...
@@ -80,7 +80,7 @@ hal config provider kubernetes account add minikube_k8s \
 hal config features edit --artifacts true
 
 
-
+---
 5. We are using Minio as storage service by deploying minio.yaml and exposing service as NodePort. Given that minio doesn't support versioning objects , we have to disable it in Spinnaker. Create the file '/.hal/default/profiles/front50-local.yml' and add below line to it
 
 spinnaker.s3.versioning: false
@@ -99,6 +99,7 @@ hal config storage edit --type s3
 // With the above command it updates the s3 section with storage details in hal config file
 
 
+---
 6. Set the deploymentEnvironment details with below commands
 
 hal config deploy edit --type distributed --account-name minikube_k8s           //minikube_k8s is the account that was created earlier
@@ -110,6 +111,7 @@ hal config version edit --version $VERSION            //Take the version from th
 hal deploy apply             // It will deploy the spinnaker in Kubernetes
 
 
+---
 7. Updated the security api base url in hal config file with below command ...
 
 hal config security api edit --override-base-url http://<IP>:<NodePort> 
@@ -117,6 +119,7 @@ hal config security api edit --override-base-url http://<IP>:<NodePort>
 //With the hal deploy it creates some services and default ports but those ports are not working on my server VM so I've done port forwarding as NodePort with supported port numbers and that is configured above
 
 
+---
 8. When you open http://<IP>:<Gate_Port> for Spinnaker homepage , you might see Cores blocking issue , so I've updated config file
 
 security:
@@ -127,7 +130,7 @@ security:
       corsAccessPattern: http://<IP>:<NodePort_Of_Deck>
 
 
-
+---
 9. Below are the basic commands to verify the deployments/pods/services
 
 kubectl get deployments -n spinnaker
@@ -145,14 +148,3 @@ kubectl expose deployment/<Deployment_Name> --type=NodePort --name <Name_You_Lik
 kubectl edit svc <Name_You_Like> -n spinnaker
 
 
-
-
-
-
-
-
-
-
-
-
- 
