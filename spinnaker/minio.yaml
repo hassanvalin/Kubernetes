@@ -1,0 +1,46 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: minio
+  namespace: spinnaker                                    # minio container will be created in spinnaker namespace
+  labels:
+    app: minio
+
+spec:
+  selector:
+    matchLabels:
+      app: minio
+  template:
+    metadata:
+      labels:
+        app: minio
+    spec:
+      containers:
+        - name: minio
+          args: ['server', '/data']
+          image: minio/minio
+          volumeMounts:
+            - name: minio
+              mountPath: /data
+      volumes:
+        - name: minio
+          hostPath:
+            path: /opt/spinnaker/minio-data/                    # This path will be created on our server VM and mounted on to container above at /data
+            type: DirectoryOrCreate
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: minio
+  namespace: spinnaker
+  labels:
+    app: minio
+spec:
+  selector:
+    app: minio
+  ports:
+    - port: 9000
+      targetPort: 9000
+      nodePort: 30080
+  type: NodePort
