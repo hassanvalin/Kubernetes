@@ -33,9 +33,9 @@ docker run\
 ---
 3. Create a spinnaker service account in kubernetes cluster
 
-CONTEXT=$(kubectl config current-context)           // It gives the current context from the config file
+- CONTEXT=$(kubectl config current-context)           // It gives the current context from the config file
 
-kubectl apply --context $CONTEXT -f https://spinnaker.io/downloads/kubernetes/service-account.yml
+- kubectl apply --context $CONTEXT -f https://spinnaker.io/downloads/kubernetes/service-account.yml
 
 // Use below commands to verify the created service account and clusterrolebinding
 
@@ -53,9 +53,9 @@ TOKEN=$(kubectl get secret --context $CONTEXT \
    -o jsonpath='{.data.token}' | base64 --decode)
 
 
-kubectl config set-credentials ${CONTEXT}-token-user --token $TOKEN
+- kubectl config set-credentials ${CONTEXT}-token-user --token $TOKEN
 
-kubectl config set-context $CONTEXT --user ${CONTEXT}-token-user
+- kubectl config set-context $CONTEXT --user ${CONTEXT}-token-user
 
 
 ---
@@ -83,7 +83,7 @@ hal config features edit --artifacts true
 ---
 5. We are using Minio as storage service by deploying minio.yaml and exposing service as NodePort. Given that minio doesn't support versioning objects , we have to disable it in Spinnaker. Create the file '/.hal/default/profiles/front50-local.yml' and add below line to it
 
-spinnaker.s3.versioning: false
+- spinnaker.s3.versioning: false
 
 
 // Default MINIO_SECRET_KEY and MINIO_ACCESS_KEY are minioadmin/minioadmin , The endpoint is the IP and NodePort which got exposed for Minio service
@@ -94,7 +94,7 @@ echo $MINIO_SECRET_KEY | hal config storage s3 edit --endpoint $ENDPOINT \
 
 // Ex: echo minioadmin | hal config storage s3 edit --endpoint http://<IP>:<NodePort> --access-key-id minioadmin --secret-access-key
 
-hal config storage edit --type s3
+- hal config storage edit --type s3
 
 // With the above command it updates the s3 section with storage details in hal config file
 
@@ -102,19 +102,19 @@ hal config storage edit --type s3
 ---
 6. Set the deploymentEnvironment details with below commands
 
-hal config deploy edit --type distributed --account-name minikube_k8s           //minikube_k8s is the account that was created earlier
+- hal config deploy edit --type distributed --account-name minikube_k8s           //minikube_k8s is the account that was created earlier
 
-hal version list         //It gives list of hal versions
+- hal version list         //It gives list of hal versions
 
-hal config version edit --version $VERSION            //Take the version from the list and set it here
+- hal config version edit --version $VERSION            //Take the version from the list and set it here
 
-hal deploy apply             // It will deploy the spinnaker in Kubernetes
+- hal deploy apply             // It will deploy the spinnaker in Kubernetes
 
 
 ---
 7. Updated the security api base url in hal config file with below command ...
 
-hal config security api edit --override-base-url http://<IP>:<NodePort> 
+- hal config security api edit --override-base-url http://<IP>:<NodePort> 
 
 //With the hal deploy it creates some services and default ports but those ports are not working on my server VM so I've done port forwarding as NodePort with supported port numbers and that is configured above
 
@@ -133,18 +133,18 @@ security:
 ---
 9. Below are the basic commands to verify the deployments/pods/services
 
-kubectl get deployments -n spinnaker
+- kubectl get deployments -n spinnaker
 
-kubectl get pods -n spinnaker
+- kubectl get pods -n spinnaker
 
-kubectl get svc -n spinnaker
+- kubectl get svc -n spinnaker
 
 // If you want to expose any deployment as service use below command 
 
-kubectl expose deployment/<Deployment_Name> --type=NodePort --name <Name_You_Like> -n spinnaker
+- kubectl expose deployment/<Deployment_Name> --type=NodePort --name <Name_You_Like> -n spinnaker
 
 //If you want to edit any running service/deployment inside kubernetes
 
-kubectl edit svc <Name_You_Like> -n spinnaker
+- kubectl edit svc <Name_You_Like> -n spinnaker
 
 
