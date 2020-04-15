@@ -22,7 +22,7 @@ docker run\
 - Get the kube config file, certs into kube folder on server VM and modify the cert paths inside config file. The place where these certs would be going on the container is '/home/spinnaker/.kube'
 
 
-The above command will create a docker container with name 'halyard'. You can login to the container with 'docker exec -it halyard bash' and see the folders and created there
+- The above command will create a docker container with name 'halyard'. You can login to the container with 'docker exec -it halyard bash' and see the folders and created there
 
 - You might get permission errors on the docker container when running these files/certs , this is because of different file permissions compared to the server VM and container. To avoid this issue please set the user id to '1000' for these files on server VM with command 'chown 1000 *' , where 1000 will set the actual username on the container for these files
 
