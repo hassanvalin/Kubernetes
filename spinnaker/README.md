@@ -148,3 +148,22 @@ security:
 - kubectl edit svc <Name_You_Like> -n spinnaker
 
 
+
+---
+10. There was some port issues in my servers , So I've exposed Minio, Deck and Gate on NodePorts as per the supported ports from my list
+
+fyi,
+
+- kubectl get svc -n spinnaker
+// NAME               TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)          AGE
+deck               NodePort    10.99.149.190    <none>        9000:30081/TCP   141m
+gate               NodePort    10.98.1.19       <none>        8084:30082/TCP   141m
+minio              NodePort    10.102.237.16    <none>        9000:30080/TCP   6h32m
+spin-clouddriver   ClusterIP   10.103.41.145    <none>        7002/TCP         145m
+spin-deck          ClusterIP   10.105.77.116    <none>        9000/TCP         145m
+spin-echo          ClusterIP   10.105.143.13    <none>        8089/TCP         145m
+spin-front50       ClusterIP   10.107.143.94    <none>        8080/TCP         145m
+spin-gate          ClusterIP   10.99.137.0      <none>        8084/TCP         145m
+spin-orca          ClusterIP   10.109.116.190   <none>        8083/TCP         145m
+spin-redis         ClusterIP   10.103.207.254   <none>        6379/TCP         145m
+spin-rosco         ClusterIP   10.111.231.250   <none>        8087/TCP         145m
