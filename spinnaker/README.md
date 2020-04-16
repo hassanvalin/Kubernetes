@@ -155,7 +155,8 @@ security:
 fyi,
 
 - kubectl get svc -n spinnaker
-// NAME               TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)          AGE
+
+NAME               TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)          AGE
 deck               NodePort    10.99.149.190    <none>        9000:30081/TCP   141m
 gate               NodePort    10.98.1.19       <none>        8084:30082/TCP   141m
 minio              NodePort    10.102.237.16    <none>        9000:30080/TCP   6h32m
