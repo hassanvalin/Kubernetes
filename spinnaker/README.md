@@ -181,7 +181,7 @@ spin-rosco         ClusterIP   10.111.231.250   <none>        8087/TCP         1
 deployKubernetesManifest.deployKubernetesManifest.deployment.Error reading kind [deployment]. Please check connectivity and access permissions to the cluster'
 
 
-Resolution :
+- Resolution :
 
 The actual kube config file was having certs/key paths but those are not populating onto pods created in our cluster, the logs were found in cloud driver pod. To avoid this issue we have to put token instead of cert file paths.
 
