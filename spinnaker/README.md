@@ -173,7 +173,7 @@ spin-rosco         ClusterIP   10.111.231.250   <none>        8087/TCP         1
 
 
 ---
-Issues :
+# Issues :
 
 - Spinnaker has been started and trying to deploy the application but we got below issue during deployment/svc deployment
 
