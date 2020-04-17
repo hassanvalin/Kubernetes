@@ -8,7 +8,9 @@
 
 
 ---
-2. Install spinnaker using Minikube and Minio. Run below command that creates a docker container and make sure to have config files and certs available in folders in server VM before mounting onto container
+Run halyard as a docker container 
+
+2. Run below command that creates a halyard docker container and make sure to have config files and certs available in folders in server VM before mounting onto container
 
 docker run\
     --name halyard -d \
