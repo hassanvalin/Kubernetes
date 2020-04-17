@@ -168,3 +168,43 @@ spin-gate          ClusterIP   10.99.137.0      <none>        8084/TCP         1
 spin-orca          ClusterIP   10.109.116.190   <none>        8083/TCP         145m
 spin-redis         ClusterIP   10.103.207.254   <none>        6379/TCP         145m
 spin-rosco         ClusterIP   10.111.231.250   <none>        8087/TCP         145m
+
+
+
+
+---
+Issues :
+
+- Spinnaker has been started and trying to deploy the application but we got below issue during deployment/svc deployment
+
+'Exception ( Deploy Manifest )
+deployKubernetesManifest.deployKubernetesManifest.deployment.Error reading kind [deployment]. Please check connectivity and access permissions to the cluster'
+
+
+Resolution :
+
+The actual kube config file was having certs/key paths but those are not populating onto pods created in our cluster, the logs were found in cloud driver pod. To avoid this issue we have to put token instead of cert file paths.
+
+kubectl config set-cluster default-cluster --server=https://<IP:PORT> --certificate-authority /root/.minikube/ca.crt --embed-certs
+
+kubectl config set-credentials default-cluster-cred --client-key /root/.minikube/profiles/minikube/client.key --client-certificate /root/.minikube/profiles/minikube/client.crt --embed-certs
+
+kubectl config set-context default-system --cluster default-cluster --user default-cluster-cred
+
+kubectl config use-context default-system
+
+
+// The IP and port you can see for the existing cluster in config file as well , use the same , now if you look at the config file afte above commands you can see the tokens , so now copy these into hal server which we created with docker and execute 'hal deploy apply' command that recreates respective pods
+
+
+
+- During pipeline configuration in Spinnaker you will see some options in drop down , to get the 'no-auth-http-account' execute below command on hal server and again do 'hal deploy apply'
+
+hal config artifact http enable
+
+
+- To get the github added to drop down , generate the access token from your GitHub account and put that token into some file to pass to the below command
+
+hal config artifact github account add hassangithub --token-file <file_name>
+
+
