@@ -8,9 +8,10 @@
 
 
 ---
-Run halyard as a docker container 
 
-2. Run below command that creates a halyard docker container and make sure to have config files and certs available in folders in server VM before mounting onto container
+2. Run halyard as a docker container :
+
+- Run below command that creates a halyard docker container and make sure to have config files and certs available in folders in server VM before mounting onto container
 
 docker run\
     --name halyard -d \
