@@ -1,0 +1,66 @@
+---
+# Source: first_app/templates/deployment.yaml
+apiVersion: apps/v1             # Which version of the Kubernetes API you’re using to create this object
+kind: Deployment                # What kind of object you want to create
+metadata:                       # Data that helps uniquely identify the object, including a name string, UID, and optional namespace
+        name: my-first-app
+        namespace: spinnaker        # Created this namespace manually in cluster before using in yml file
+        labels:
+                app: my-app
+spec:          # What state you desire for the object
+        selector:
+                matchLabels:
+                        app: my-app
+        template:
+                metadata:
+                        labels:
+                                app: my-app
+                spec:
+                    containers:
+                        - name: my-spring-app
+                          image: hassandocker1/my_java_image:76
+                          resources:
+                                  requests:
+                                          cpu: 0.3
+                                          memory: 512Mi
+                                  limits:
+                                          cpu: 1
+                                          memory: 1Gi
+                          livenessProbe:
+                                  httpGet:
+                                          path: /app/index
+                                          port: 8080         #Once after the app is up it will check on this port, if it can't able to reach the app then the conatiner will be restarted automatically
+                                  initialDelaySeconds: 90
+                                  periodSeconds: 5
+                          readinessProbe:
+                                  httpGet:
+                                        path: /app/index
+                                        port: 8080
+                                  initialDelaySeconds: 60
+                                  periodSeconds: 5
+
+
+---
+# Source: first_app/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-first-app
+  namespace: spinnaker
+  labels:
+          app: my-app
+spec:
+  type: NodePort
+  ports:
+    - port: 80
+      targetPort: 8080
+      nodePort: 30083
+      protocol: TCP
+      name: http
+  selector:
+          app: my-app
+
+
+
+
+# If you want to deploy simple manifest file in spinnaker pipeline use this yaml that exposes nodeport 30083 on the node. Use http://<NodeIP>:<NodePort>/app/index to verify the status
