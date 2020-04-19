@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+        name: {{ .Values.deployName }}-pv
+        namespace: {{ .Values.namespace }}
+        labels: 
+{{- toYaml .Values.pv.labels | nindent 12}}
+spec:
+        accessModes:
+                - ReadWriteMany
+        hostPath:
+                path: {{ .Values.pv.path }}
+                type: DirectoryOrCreate
+        capacity:
+                storage: {{ .Values.pv.storage }}
