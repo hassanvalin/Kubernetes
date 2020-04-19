@@ -211,3 +211,10 @@ hal config artifact http enable
 hal config artifact github account add hassangithub --token-file <file_name>
 
 
+
+
+# K8S Deployment Using Spinnaker
+
+- Deploying yaml (deployment/svc) using Spinnaker : Use https://github.com/hassanvalin/Kubernetes/blob/master/spinnaker/deploy_svc.yaml file to do that
+
+- Deploying helm charts using Spinnaker : Packaged using command 'helm package .' and stored at https://github.com/hassanvalin/Kubernetes/blob/master/spinnaker/helm_first_app/first_app-0.1.1.tgz , we can directly use this file during deployment in Spinnaker
