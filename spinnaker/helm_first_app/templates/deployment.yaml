@@ -1,0 +1,39 @@
+apiVersion: apps/v1             # Which version of the Kubernetes API you’re using to create this object
+kind: Deployment                # What kind of object you want to create
+metadata:                       # Data that helps uniquely identify the object, including a name string, UID, and optional namespace
+        name: {{ .Values.deployName }}
+        namespace: {{ .Values.namespace }}        # Created this namespace manually in cluster before using in yml file
+        labels:
+                app: {{ .Values.labelName }}
+spec:          # What state you desire for the object
+        selector:
+                matchLabels:
+                        app: {{ .Values.labelName }}
+        template:
+                metadata:
+                        labels:
+                                app: {{ .Values.labelName }}
+                spec:
+                    containers:
+                        - name: {{ .Values.appName }}
+                          image: {{ .Values.imageName }}
+                          resources:
+                                  requests:
+                                          cpu: {{ .Values.resource.cpu }}
+                                          memory: {{ .Values.resource.memory }}
+                                  limits:
+                                          cpu: {{ .Values.resource.limits.cpu }}
+                                          memory: {{ .Values.resource.limits.memory }}
+                          livenessProbe:
+                                  httpGet:
+                                          path: {{ .Values.probes.liveness.path }}
+                                          port: {{ .Values.probes.liveness.port }}         #Once after the app is up it will check on this port, if it can't able to reach the app then the conatiner will be restarted automatically
+                                  initialDelaySeconds: {{ .Values.probes.liveness.initialDelaySeconds }}
+                                  periodSeconds: {{ .Values.probes.liveness.periodSeconds }}        
+                          readinessProbe:
+                                  httpGet:
+                                        path: {{ .Values.probes.readiness.path }}
+                                        port: {{ .Values.probes.readiness.port }}
+                                  initialDelaySeconds: {{ .Values.probes.readiness.initialDelaySeconds }}
+                                  periodSeconds: {{ .Values.probes.readiness.periodSeconds }}
+                                        
